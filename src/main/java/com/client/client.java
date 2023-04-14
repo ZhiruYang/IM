@@ -1,4 +1,4 @@
-package com.lechat.client;
+package com.client;
 
 public class client {
 

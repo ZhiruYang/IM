@@ -1,6 +1,5 @@
 package com.lechat.server;
 
-import com.lechat.client.handler.ClientHandler;
 import com.lechat.handler.WebSocketHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -13,15 +12,20 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class IMServer {
 
     public static final Map<String, Channel> USERS = new ConcurrentHashMap<>(1024);
-    private final static Logger LOGGER = LoggerFactory.getLogger(ClientHandler.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(IMServer.class);
+
     public static void start() throws Exception{
+
+
         EventLoopGroup boss = new NioEventLoopGroup();
         EventLoopGroup worker = new NioEventLoopGroup();
         try {
@@ -39,7 +43,7 @@ public class IMServer {
                                     .addLast(new WebSocketHandler());
                         }
                     });
-            ChannelFuture future = bs.bind(9999).sync();
+            ChannelFuture future = bs.bind(9997).sync();
             future.channel().closeFuture().sync();
         }catch (Exception e){
             e.printStackTrace();

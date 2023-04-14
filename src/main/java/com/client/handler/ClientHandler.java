@@ -1,7 +1,7 @@
-package com.lechat.client.handler;
+package com.client.handler;
 
-import com.lechat.client.Scan;
 import com.lechat.entity.ChatMessage;
+import com.lechat.util.TokenHolder;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
@@ -77,7 +77,24 @@ public class ClientHandler extends SimpleChannelInboundHandler<Object> {
             BinaryWebSocketFrame bf = (BinaryWebSocketFrame) frame;
             byte[] data = ByteBufUtil.getBytes(bf.content());
             ChatMessage chatMessage = ChatMessage.restore(data);
-            LOGGER.info("WebSocket Client received: {}", chatMessage.getMsg());
+//            LOGGER.info("WebSocket Client received: {}", chatMessage.getMsg());
+
+            switch (chatMessage.getMessageType()){
+                case SUCCESS:
+                    LOGGER.info("Success! {}", chatMessage.getMsg());
+                    if (chatMessage.getToken() != null){
+                        TokenHolder.saveToken(chatMessage.getToken());
+                        LOGGER.info("Login success; my token is: {}", chatMessage.getToken());
+                    }
+                    break;
+                case FAIL:
+                    LOGGER.info("Fail! {}", chatMessage.getMsg());
+                    break;
+                case SEND:
+                    LOGGER.info("receive msg from server: {}", chatMessage.getMsg());
+                    break;
+
+            }
 
         }
     }

@@ -1,4 +1,4 @@
-package com.lechat.client.util;
+package com.lechat.util;
 
 public class StringUtil {
     public StringUtil() {

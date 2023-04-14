@@ -1,7 +1,7 @@
-package com.lechat.client;
+package com.client;
 
-import com.lechat.client.handler.ClientHandler;
-import com.lechat.client.handler.msgHandler;
+import com.client.handler.ClientHandler;
+import com.client.handler.msgHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -22,12 +22,10 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Scanner;
 
 public class Scan implements Runnable{
     private final static Logger LOGGER = LoggerFactory.getLogger(Scan.class);
-    private static final String URL = System.getProperty("url", "ws://127.0.0.1:9999");
+    private static final String URL = System.getProperty("url", "ws://127.0.0.1:9997");
     private msgHandler msgHandler = new msgHandler();
 
     @Override
@@ -74,7 +72,6 @@ public class Scan implements Runnable{
                         WebSocketFrame frame = new PingWebSocketFrame(
                                 Unpooled.wrappedBuffer(new byte[] { 8, 1, 8, 1 }));
                         ch.writeAndFlush(frame);
-                        LOGGER.debug("ppp");
                         continue;
                     }
                     //quit

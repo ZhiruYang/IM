@@ -2,8 +2,6 @@ package com.lechat.entity;
 
 import com.lechat.common.MessageType;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +16,7 @@ public class ChatMessage implements Serializable {
     private MessageType messageType;
     private String msg;
     private Object content;
+    private String token;
 
     public ByteBuf getBuf() {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -28,6 +27,8 @@ public class ChatMessage implements Serializable {
             out.writeObject(this);
             byte[] data = bos.toByteArray();
             buf = Unpooled.copiedBuffer(data);
+
+            bos.close();
         } catch (Exception e){
             e.printStackTrace();
         }
